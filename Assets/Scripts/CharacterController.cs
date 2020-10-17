@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    //global variables
     public int speed = 3;
     public Rigidbody2D rb;
     public int jumpForce = 7;
