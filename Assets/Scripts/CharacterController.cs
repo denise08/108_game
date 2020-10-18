@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    //global variables
+    //character movement
     public int speed = 3;
     public Rigidbody2D rb;
-    public int jumpForce = 7;
-    
+    public int jumpForce = 7; 
     private bool facingRight = true;
 
+    //check if player is on ground
     [SerializeField]
     public bool isGroundedRoad;
     public bool isGroundedBlock;
 
+    //ground layers/checks
     public Transform groundCheckOrigin;
     public float checkRadius = .2f;
     public LayerMask groundLayer;
@@ -22,9 +23,14 @@ public class CharacterController : MonoBehaviour
 
     public Animator animator;
 
+    public GameObject gameOverText, restartButton;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameOverText.SetActive(false);
+        restartButton.SetActive(false);
+
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -65,5 +71,14 @@ public class CharacterController : MonoBehaviour
         transform.localScale = scale;
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Virus"))
+        {
+            gameOverText.SetActive(true);
+            restartButton.SetActive(true);
+            gameObject.SetActive(false);
+        }
+    }
 
 }
