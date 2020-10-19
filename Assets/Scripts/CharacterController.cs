@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CharacterController : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class CharacterController : MonoBehaviour
     public Animator animator;
 
     public GameObject gameOverText, restartButton;
+
+    public float numMasks = 0;
+    public TextMeshProUGUI maskCount;
 
     // Start is called before the first frame update
     void Start()
@@ -75,9 +79,30 @@ public class CharacterController : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Virus"))
         {
-            gameOverText.SetActive(true);
-            restartButton.SetActive(true);
-            gameObject.SetActive(false);
+            if(numMasks == 0)
+            {
+                gameOverText.SetActive(true);
+                restartButton.SetActive(true);
+                gameObject.SetActive(false);
+            } 
+            else
+            {
+                numMasks--;
+                maskCount.text = numMasks.ToString();
+            }
+            
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Mask"))
+        {
+            print("collected mask");
+            numMasks++;
+            maskCount.text = numMasks.ToString();
+
+            Destroy(collision.gameObject);
         }
     }
 
